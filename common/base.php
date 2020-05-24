@@ -5,18 +5,7 @@ $pdo = new PDO($dsn, 'root', "");
 date_default_timezone_set("Asia/Taipei");
 session_start();
 
-
-/** 尋找單筆資料
- * $table : 資料表名稱
- * $arg: 只能是id 或其他條件(要放在陣列內)
- * select * from `$table` where `id`="1"
- * select * from `$table` where ["year"=>"109" , "period"=>"1-2"]
- * -> select * from `$table` where `year`="109" && `period`="1-2"
- */
-
-//  $data = ["year"=>"109" , "period"=>"1-2"];
-//  $ans = find('invoice',$data);
-//  print_r($ans);
+//尋找單筆資料
 function find($table, $arg)
 {
     global $pdo;
@@ -33,55 +22,61 @@ function find($table, $arg)
     return $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 }
 
-/** 尋找多筆資料
- * 
- * 
- * 
- */
-function findall()
-{
-}
-
-
-function delete()
-{
-}
-
-
-/**
- * 新增資料
- * 
- * $table:資料表名稱
- * $arg:陣列資料
- * insert into `invoice`(`user_id`, `year`, `period`, `date`, `code`, `num`, `spend`, `create_time`, `update_time`, `note`) VALUES ('value','value',.....)
- * 
- */
-
-function adddata($table, $arg)
-{
+// 尋找多筆資料
+function all($table,...$condition){
     global $pdo;
-    $key = array_keys($arg);
-    $sql = "insert into `$table` " . " (`" . implode("`,`", $key) . "`)" . " values (' " . implode("','", $arg) . "')";
-    $res =  $pdo->exec($sql);
-}
+    $sql = "select * from $table ";
 
-/**
- * 更新資料
- * 
- * $table:資料表名稱
- * $arg: 條件(id)
- * update `invoice` set `year` = '109',`period` = '3-4',`date`='2020-03-31',`code`='DD',`num` = '12345678',`spend`='30000',`update_time`='$time',`note`='test2' where `user_id`='1' && `id`=''
- * 
- */
-$data = ["period" => "3-4", "code" => "DD"];
-update('invoice',$data);
-function update($table, $arg){
-    global $pdo;
-    if (is_array($arg)) {
-        $arr = [];
-        foreach ($arg as $key => $value) {
-            $arr[] = sprintf("`%s`='%s'", $key, $value);
+    if(isset($condition[0]) && is_array($condition[0])){
+        $tmp=[];
+        foreach($condition[0] as $key => $value){
+            $tmp[] = sprintf("`%s` = '%s'",$key,$value);
         }
-        $sql = "update `$table` set " . implode(",", $arr) . " where `user_id`= '1' && `id` = '$arg' ";
+       $sql = $sql . "where" . implode(" && ",$tmp);
+    }
+    if(isset($condition[1])){
+        $sql = $sql . $condition[1];
+    }
+     return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function to($url){
+    header("location:".$url);
+}
+
+function delete($table,$arg){
+    global $pdo;
+    $sql = "delete from $table ";
+    if(is_array($arg)){
+        $tmp=[];
+        foreach($arg as $key => $value){
+            $tmp[] = sprintf("`%s` = '%s'",$key,$value);
+        }
+       $sql = $sql . "where" . implode(" && ",$tmp);
+    }else{
+        $sql = $sql . "where `id`='$arg'";
+    }
+    echo $sql;
+     return $pdo->exec($sql);
+}
+
+function save($table,$arg){
+    global $pdo;
+    if(isset($arg['id'])){
+        //update
+        $sql = "update $table ";
+        foreach ($arg as $key => $value){
+            if($key != 'id'){
+            $tmp[] = sprintf("`%s`='%s'",$key,$value);
+            }
+        }
+        $sql = "update `$table` set " . implode(',', $tmp ) . " where `id`='" . $arg['id']."'";
+        // echo $sql;
+         return $pdo->exec($sql);
+    }else{
+        //insert
+        $sql = "insert into `$table`" . "(`".implode("`,`",array_keys($arg)) ."`) values ". "('".implode("','",$arg) ."')";
+        // echo $sql;
+        return $pdo->exec($sql);  
     }
 }

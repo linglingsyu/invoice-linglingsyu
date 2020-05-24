@@ -36,7 +36,7 @@
 </head>
 
 <body>
-    <form action="?" method="get">
+    <form action="?" method="post">
         <div class="container">
             <h1>請輸入統一發票中獎號碼</h1>
             <p>可參考<a href="https://www.etax.nat.gov.tw/etw-main/web/ETW183W1/" target="_blank">財政部統一發票中獎號碼</a></p>
@@ -52,12 +52,12 @@
                     ?>
                 </select>
                 <select name="period" id="period">
-                    <option value='1-2'>01-02月</option>
-                    <option value='3-4'>03-04月</option>
-                    <option value='5-6'>05-06月</option>
-                    <option value='7-8'>07-08月</option>
-                    <option value='9-10'>09-10月</option>
-                    <option value='11-12'>11-12月</option>
+                    <option value='1'>01-02月</option>
+                    <option value='2'>03-04月</option>
+                    <option value='3'>05-06月</option>
+                    <option value='4'>07-08月</option>
+                    <option value='5'>09-10月</option>
+                    <option value='6'>11-12月</option>
                 </select>
             </div>
             <div class="item">
@@ -130,37 +130,40 @@
                 <input type="reset" value="重填">
             </div>
             <a href="index.php">回首頁</a>
-            <a href="winning_numbers_list.php">查詢中獎號碼/對獎</a>
+            <a href="winning_numbers_list.php">查詢中獎號碼</a>
+            <a href="winning_numbers_award.php">對獎</a>
 
         </div>
 
         <?php
-        if (isset($_GET["special"]) && isset($_GET["top"]) && isset($_GET["first_prize1"]) && isset($_GET["first_prize2"]) && isset($_GET["first_prize3"]) && isset($_GET["addprize"])) {
-            $year = $_GET["year"];
-            $period = $_GET["period"];
-            $special = $_GET["special"];
-            $top = $_GET["top"];
-            $first_prize1 = $_GET["first_prize1"];
-            $first_prize2 = $_GET["first_prize2"];
-            $first_prize3 = $_GET["first_prize3"];
-            $addprize = $_GET["addprize"];
-            if (empty($special) || empty($top) || empty($first_prize1) || empty($first_prize2) || empty($first_prize3) || empty($addprize)) {
+        if (isset($_POST["special"]) && isset($_POST["top"]) && isset($_POST["first_prize1"]) && isset($_POST["first_prize2"]) && isset($_POST["first_prize3"]) && isset($_POST["addprize"])) {
+
+            $data = [
+                "year" => $_POST["year"],
+                "period" => $_POST["period"],
+                "special" => $_POST["special"],
+                "top" => $_POST["top"],
+                "first_prize1" => $_POST["first_prize1"],
+                "first_prize2" => $_POST["first_prize2"],
+                "first_prize3" => $_POST["first_prize3"],
+                "addprize" => $_POST["addprize"]
+            ];
+
+            if( empty($data["year"]) || empty($data["period"]) || empty($data["special"]) || empty($data["top"]) || empty($data["first_prize1"]) || empty($data["first_prize2"]) || empty($data["first_prize3"]) || empty($data["addprize"])){
                 echo "資料不得為空";
                 exit();
             }
-            $checksql = "select * from `winning numbers` where `year`='$year' && `period`='$period'";
-            $res = $pdo->query($checksql)->fetchAll();
-            if (count($res) >= 1) {
+            $check=["year" => $data["year"] , "period" => $data["special"] ];
+            $res = find('winning numbers',$check);
+            if ($res != null) {
                 echo "<span style='color:red;'>資料庫已有資料，請至對獎頁面進行對獎</span>";
                 exit();
             }
-            $sql = "insert into `winning numbers` (`year`, `period`,`special`,`top`,`first_prize1`,`first_prize2`,`first_prize3`,`addprize`) values ('$year','$period','$special','$top','$first_prize1','$first_prize2','$first_prize3','$addprize')";
-            $res = $pdo->exec($sql);
+            $res = save("winning numbers",$data);
             if ($res >= 1) {
                 echo "<span style='color:red;'>新增成功</span>";
             } else {
                 echo "<span style='color:lightblue;'>新增失敗</span>";
-                echo $sql;
             }
         }
         ?>

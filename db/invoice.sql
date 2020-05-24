@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2020-05-10 18:13:09
+-- 產生時間： 2020-05-24 18:27:46
 -- 伺服器版本： 10.4.11-MariaDB
 -- PHP 版本： 7.4.5
 
@@ -29,17 +29,29 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `invoice` (
   `id` int(10) UNSIGNED NOT NULL,
-  `acc` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
   `year` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   `period` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` date DEFAULT NULL,
-  `code` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `inv_date` date DEFAULT NULL,
+  `code` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `num` varchar(8) COLLATE utf8mb4_unicode_ci NOT NULL,
   `spend` int(10) DEFAULT NULL,
-  `create_time` datetime NOT NULL,
-  `update_time` datetime NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `note` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- 傾印資料表的資料 `invoice`
+--
+
+INSERT INTO `invoice` (`id`, `user_id`, `year`, `period`, `inv_date`, `code`, `num`, `spend`, `create_time`, `update_time`, `note`) VALUES
+(1, 4, '109', '1', '0000-00-00', '', '12345678', 0, '2020-05-24 11:39:32', '2020-05-24 11:39:32', ''),
+(2, 4, '109', '1', '2020-05-20', 'BN', '10146181', 35, '2020-05-24 13:38:38', '2020-05-24 13:38:38', '全家'),
+(4, 4, '109', '2', '2020-05-08', 'BN', '12345679', 35, '2020-05-24 14:08:11', '2020-05-24 14:08:11', '123'),
+(5, 4, '109', '1', '2020-05-07', 'BN', '12345678', 35, '2020-05-24 15:41:08', '2020-05-24 15:41:08', '7-11'),
+(6, 4, '109', '1', '2020-05-23', 'ZA', '21346598', 100, '2020-05-24 15:44:21', '2020-05-24 15:44:21', ''),
+(7, 4, '109', '1', '2020-05-23', 'ZA', '21346598', 100, '2020-05-24 15:44:45', '2020-05-24 15:44:45', '');
 
 -- --------------------------------------------------------
 
@@ -90,6 +102,15 @@ CREATE TABLE `winning numbers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- 傾印資料表的資料 `winning numbers`
+--
+
+INSERT INTO `winning numbers` (`id`, `year`, `period`, `special`, `top`, `first_prize1`, `first_prize2`, `first_prize3`, `addprize`) VALUES
+(4, '109', '1', '12620024', '39793895', '67913945', '09954061', '54574947', '007'),
+(5, '109', '2', '12620024', '39793895', '67913945', '09954061', '54574947', '007'),
+(6, '101', '3', '12620024', '39793895', '67913945', '09954061', '54574947', '007');
+
+--
 -- 已傾印資料表的索引
 --
 
@@ -120,7 +141,7 @@ ALTER TABLE `winning numbers`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
@@ -132,7 +153,7 @@ ALTER TABLE `user`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `winning numbers`
 --
 ALTER TABLE `winning numbers`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

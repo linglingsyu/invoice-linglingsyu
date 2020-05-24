@@ -47,17 +47,22 @@
 <?php
     include_once "common/base.php";
     include "include/link.php";
-    $id = $_SESSION['id'];
+
 ?>
 <div class="container w-50">
     <div class="row">
     <div class="col">
+        <?php
+    if( isset($_GET["status"]) && $_GET["status"] == 1){
+        echo "<div>新增成功，請繼續輸入下一筆資料</div>";
+    }
+    ?>
         <h1><?= "請輸入您的發票資訊，".$_SESSION['name'];?></h1>
         <form action="save_invoice.php" method="POST" class="form1">
-            <label for="year">民國年
+            <label for="year">*民國年
             </label>
-            <input type="text" name="year" id="year">
-            <label for="period">期別</label>
+            <input type="text" name="year" id="year" require>
+            <label for="period">*期別</label>
             <select name="period" id="period">
                 <option value="1">01-02月</option>
                 <option value="2">03-04月</option>
@@ -69,9 +74,9 @@
             <label for="inv_date">發票日期</label>
             <input type="date" name="inv_date" id="inv_date">
             <label for="code">字軌</label>
-            <input type="text" name="code" id="code">
-            <label for="num">號碼</label>
-            <input type="text" name="num" id="num">
+            <input type="text" name="code" id="code" >
+            <label for="num">*發票號碼</label>
+            <input type="text" name="num" id="num" require>
             <label for="spend">金額</label>
             <input type="text" name="spend" id="spend">
             <label for="note">備註</label>

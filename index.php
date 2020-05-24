@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="col award">
-      <a href="winning_numbers_list.php">不登入，進行快速對獎去！</a>
+      <a href="winning_numbers_award.php">不登入，進行快速對獎去！</a>
     </div>
     <div class="col award">
       <a href="winning_numbers.php">輸入中獎號碼</a>
