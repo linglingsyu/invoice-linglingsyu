@@ -14,11 +14,59 @@
 </head>
 
 <body>
+    <form action="?" method="get">
+        <div class="year">
+            請選擇要查詢的發票年月份
+            <select name="year" id="year">
+                <?php
+                include("common/base.php");
+                $year = date("Y") - 1911;
+                $ny = $year - 1;
+                echo "<option value='$year' selected>" . $year . "</option>";
+                echo "<option value='$ny'>" . $ny . "</option>";
+                ?>
+            </select>
+            <select name="period" id="period">
+                <option value='1'>01-02月</option>
+                <option value='2'>03-04月</option>
+                <option value='3'>05-06月</option>
+                <option value='4'>07-08月</option>
+                <option value='5'>09-10月</option>
+                <option value='6'>11-12月</option>
+            </select>
+            <input type="submit" value="查詢">
+        </div>
+    </form>
     <?php include_once "common/base.php";
+    if(isset($_GET["year"]) && isset($_GET["period"])){
     $user_id = $_SESSION["id"];
-    $rows = all("invoice", $user_id);
-    ?>
+    $data = [
+        "user_id" => $user_id,
+        "year" => $_GET["year"],
+        "period" => $_GET["period"]
+    ];
+    $page = isset($_GET["page"])?$_GET["page"]:1;
+    $total = nums("invoice",$data);
+    $page_show = 25;
+    $limitStart = ($page-1)*$page_show;
+    $rows = all("invoice", $data , "limit  $limitStart,$page_show");
+    $page_total = ceil($total/$page_show);
+    parse_str($_SERVER['QUERY_STRING'], $query_arr);
 
+    if($page > 1){
+        $query_arr['page'] = $page-1;
+        $new_query_str = http_build_query($query_arr);
+        echo "<a href='".$_SERVER['PHP_SELF']."?".$new_query_str."'>上一頁</a>";
+    }
+    echo "第". $page ."頁"."，共".$page_total."頁";
+    if($page < $page_total){
+        $query_arr['page'] = $page+1;
+        $new_query_str = http_build_query($query_arr);
+        echo "<a href='".$_SERVER['PHP_SELF']."?".$new_query_str."'>下一頁</a>";
+    }
+
+
+    ?>
     <table>
         <tr>
             <td>年度</td>
@@ -53,7 +101,9 @@
         }
         ?>
     </table>
-
+    <?php
+        }
+    ?>
 </body>
 
 </html>

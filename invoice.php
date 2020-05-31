@@ -61,7 +61,14 @@
         <form action="save_invoice.php" method="POST" class="form1">
             <label for="year">*民國年
             </label>
-            <input type="text" name="year" id="year" require>
+            <select name="year" id="year">
+            <?php
+            $year = date("Y") - 1911;
+                    $ny = $year - 1;
+                    echo "<option value='$ny'>" . $ny . "</option>";
+                    echo "<option value='$year' selected>" . $year . "</option>";
+            ?>
+            </select>
             <label for="period">*期別</label>
             <select name="period" id="period">
                 <option value="1">01-02月</option>

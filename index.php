@@ -7,70 +7,65 @@
   <title>統一發票管理系統 - 首頁</title>
   <?php include 'include/link.php'; ?>
   <style>
-
-
-    .form1,
-    .award {
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .note {
-      margin: 0 auto;
-      text-align: left;
-    }
-    label {
-      width: 100%;
-      margin: 1% 0;
-    }
-
-    input{
-      width:60%;
-      margin: 1% 0;
-      padding-left:3%;
+    button{
+      width: 45%;
+      margin-left:8px;
     }
 
   </style>
 </head>
 
-<body>
-  <div class="container w-50">
-    <div class="row">
-      <form action="checklogin.php" method="post" class="form1">
-        <div class="col">
-          <h1>登入帳號</h1>
-          <label for="">帳號</label>
-          <input type="text" name="acc" id="acc">
-          <label for="">密碼</label>
-          <input type="password" name="pw" id="pw">
-        </div>
-        <div class="col">
-          <input type="reset" value="重填">
-          <input type="submit" value="送出">
-        </div>
-        <div class="col">
-          <a href="reg.php">註冊帳號</a>
-          <span> | </span>
-          <a href="">忘記密碼</a>
-        </div>
-      </form>
-    </div>
-    <div class="col">
-      <div class="note w-50">
-        <p>登入帳號即可享有個人專屬發票管理頁面！</p>
-        <p>您可以：</p>
-        <p>1.紀錄所有發票資訊</p>
-        <p>2.查詢及編輯您所有紀錄過的發票</p>
-        <p>3.一鍵快速對獎</p>
-      </div>
-    </div>
-    <div class="col award">
-      <a href="winning_numbers_award.php">不登入，進行快速對獎去！</a>
-    </div>
-    <div class="col award">
-      <a href="winning_numbers.php">輸入中獎號碼</a>
+<body class="d-flex justify-content-center align-items-center">
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <?php
+      $show = 0;
+      session_start();
+      if (isset($_SESSION["status"])) {
+        if ($_SESSION["status"]) {
+          $show = 1;
+        } else {
+          echo "帳號密碼錯誤，請重新輸入";
+        }
+      }
+      ?>
+
+      <?php if (!$show) { ?>
+
+        <form action="checklogin.php" method="post" class="form1">
+          <h1 class="h1 text-center">登入帳號</h1>
+          <div class="form-group">
+            <label for="acc">帳號</label>
+            <input type="text" name="acc" id="acc" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="pw">密碼</label>
+            <input type="password" name="pw" id="pw" class="form-control">
+          </div>
+          <button type="reset" class="btn btn-primary">重寫</button>
+          <button type="submit" class="btn btn-primary">登入</button>
+          <div class="inline-block  text-center mt-3 mb-3">
+            <a href="reg.php" class="text-info">註冊帳號</a>
+            <span> | </span>
+            <a href="#" class="text-info">忘記密碼</a>
+          </div>
+          <p>登入帳號即可享有個人專屬發票管理頁面！</p>
+          <p>您可以：</p>
+          <p>1.紀錄所有發票資訊</p>
+          <p>2.查詢及編輯您所有紀錄過的發票</p>
+          <p>3.一鍵快速對獎</p>
+          <a href="winning_numbers_award.php" class="btn alert-success">不登入，進行快速對獎去！</a>
+          <a href="winning_numbers.php" class="btn alert-warning">輸入中獎號碼</a>
+        </form>
     </div>
   </div>
+
+<?php
+      } else {
+        header("location:main.php");
+      }
+
+?>
 </body>
 
 </html>

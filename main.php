@@ -28,6 +28,7 @@ $user = $statement->fetch();
     <a href="list.php">發票列表</a>
     <a href="award.php">發票對獎</a>
     <a href="idv.php">變更個人資訊</a>
+    <a href="logout.php">登出</a>
     </div>
 <?php
     $_SESSION["name"] = $user["name"];

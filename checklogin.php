@@ -27,9 +27,10 @@ if(!$result){
 $res = $statement->fetchALL(PDO::FETCH_ASSOC);
 if (count($res) == 1) {
     $_SESSION["id"] = $res[0]["id"] ;
-    header("location:main.php");
+    $_SESSION["status"] = 1;
+    to("main.php");
 } else {
-    echo "帳號密碼錯誤，請重新輸入";
-    echo '<a href="index.php">回首頁</a>';
+    $_SESSION["status"] = 0;
+    to("index.php");
 }
 

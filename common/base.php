@@ -25,7 +25,7 @@ function find($table, $arg)
 // 尋找多筆資料
 function all($table,...$condition){
     global $pdo;
-    $sql = "select * from $table ";
+    $sql = "select * from `$table` ";
 
     if(isset($condition[0]) && is_array($condition[0])){
         $tmp=[];
@@ -37,7 +37,7 @@ function all($table,...$condition){
     if(isset($condition[1])){
         $sql = $sql . $condition[1];
     }
-     return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function to($url){
@@ -56,7 +56,6 @@ function delete($table,$arg){
     }else{
         $sql = $sql . "where `id`='$arg'";
     }
-    echo $sql;
      return $pdo->exec($sql);
 }
 
@@ -79,4 +78,76 @@ function save($table,$arg){
         // echo $sql;
         return $pdo->exec($sql);  
     }
+}
+
+function  nums ( $table ,... $condition ){
+    global  $pdo ;
+    $sql = "select count(*) from $table " ;
+    if ( isset ( $condition [ 0 ]) && is_array ( $condition [ 0 ])){
+        $tmp =[];
+        foreach ( $condition [ 0 ] as  $key => $value ){
+            $tmp [] = sprintf ( "`%s` = '%s'" , $key , $value );
+        }
+       $sql = $sql . "where" . implode ( " && " , $tmp );
+    }
+    if ( isset ( $condition [ 1 ])){
+        $sql = $sql . $condition [ 1 ];
+    }
+     return  $pdo -> query ( $sql )-> fetchColumn ();
+}
+
+
+
+function check_winnums($win_rows,$inv_rows){
+    $special = $win_rows[0]["special"];
+    $top = $win_rows[0]["top"];
+    $first = [
+         $win_rows[0]["first_prize1"],
+         $win_rows[0]["first_prize2"],
+         $win_rows[0]["first_prize3"]
+    ];
+    $second = [
+        mb_substr($win_rows[0]["first_prize1"], 1, 7), mb_substr($win_rows[0]["first_prize2"], 1, 7), mb_substr($win_rows[0]["first_prize3"], 1, 7)
+    ];
+    $third = [
+        mb_substr($win_rows[0]["first_prize1"], 2, 6),
+        mb_substr($win_rows[0]["first_prize2"], 2, 6), mb_substr($win_rows[0]["first_prize3"], 2, 6)
+    ];
+    $fourth = [
+        mb_substr($win_rows[0]["first_prize1"], 3, 5), mb_substr($win_rows[0]["first_prize2"], 3, 5), mb_substr($win_rows[0]["first_prize3"], 3, 5)
+    ];
+    $fifth = [
+        mb_substr($win_rows[0]["first_prize1"], 4, 4), mb_substr($win_rows[0]["first_prize2"], 4, 4), mb_substr($win_rows[0]["first_prize3"], 4, 4)
+    ];
+    $sixth = [
+        mb_substr($win_rows[0]["first_prize1"], 5, 3), mb_substr($win_rows[0]["first_prize2"], 5, 3), mb_substr($win_rows[0]["first_prize3"], 5, 3), $win_rows[0]["addprize"]
+    ];
+    $list = [];
+    foreach ($inv_rows as $rows){
+        $num = $rows["num"];
+        if($num == $special){
+            $list[] = "發票號碼" . $num . "中了特別獎，獎金1000萬元<br>";
+            continue;
+        }elseif ($num == $top) {
+            $list[] = "發票號碼" . $num . "中了特獎，獎金200萬元<br>";
+            continue;
+        }
+        if (!in_array(mb_substr($num, 5, 3), $sixth)) {
+            continue;
+        }
+        if (in_array($num, $first)){
+            $list[] = "發票號碼" . $num . "中了頭獎，獎金20萬元<br>";
+        }elseif (in_array(mb_substr($num, 1, 7), $second)){
+            $list[] = "發票號碼" . $num . "中了二獎，獎金4萬元<br>";
+        }elseif (in_array(mb_substr($num, 2, 6), $third)){
+            $list[] = "發票號碼" . $num . "中了三獎，獎金1萬元<br>";
+        }elseif (in_array(mb_substr($num, 3, 5), $fourth)){
+            $list[] = "發票號碼" . $num . "中了四獎，獎金4千元<br>";
+        }elseif (in_array(mb_substr($num, 4, 4), $fifth)){
+            $list[] = "發票號碼" . $num . "中了五獎，獎金1千元<br>";
+        }else {
+            $list[] = "發票號碼" . $num . "中了六獎，獎金2百元<br>";
+        }
+    }
+    return $list;
 }
