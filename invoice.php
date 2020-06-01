@@ -12,7 +12,7 @@
         }
 
         .form1{
-            width: 50%;
+            margin:0 auto;
         }
 
         label{
