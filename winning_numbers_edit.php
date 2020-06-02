@@ -1,3 +1,4 @@
+<?php include_once "common/base.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,14 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>編輯中獎號碼</title>
+    <?php include("include/link.php") ?>
+    <style>
+        .nav a {
+            color: #F3D5AD;
+        }
+        .nav a:hover {
+            color: #F5B895;
+        }
+    </style>
 </head>
 
-<body>
-    <h1>編輯中獎號碼</h1>
+<body class="d-flex justify-content-center align-items-center">
     <?php
-    include("common/base.php");
     $id = $_SESSION["id"];
-    $row = find("winning numbers",$id);
+    $row = find("winning numbers", $id);
     $year = $row["year"];
     $period = $row["period"];
     $special = $row['special'];
@@ -21,87 +29,44 @@
     $first_prize2 = $row['first_prize2'];
     $first_prize3 = $row['first_prize3'];
     $addprize = $row['addprize'];
-    $arr=["", "01-02月", "03-04月", "05-06月", "07-08月", "09-10月", "11-12月"];
+    $arr = ["", "01-02月", "03-04月", "05-06月", "07-08月", "09-10月", "11-12月"];
     ?>
-    <form action="winning_numbers_update.php" method="post">
-        <div class="year">
-            <?=$year?>年<?=$arr[$period]?>        
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <form action="winning_numbers_update.php" method="post" class="w-25">
+                <h1 class="h3">編輯中獎號碼</h1>
+                <p><?= $year ?>年<?= $arr[$period] ?></p>
+                <input type="text" name="id" value="<?= $id ?>" style="display:none;">
+                <div class="form-group">
+                    <label for="special" class="w-100">特別獎</label>
+                    <input type="text" name="special" id="special" class="form-control form-control-sm" value="<?= $special ?>">
+                </div>
+                <div class="form-group">
+                    <label for="top" class="w-100">特獎</label>
+                    <input type="text" name="top" id="top" class="form-control form-control-sm" value="<?= $top ?>">
+                </div>
+                <div class="form-group">
+                    <label for="first_prize1" class="mb-0 w-100">頭獎</label>
+                    <input type="text" name="first_prize1" id="first_prize1" class="form-control form-control-sm mb-2" value="<?= $first_prize1 ?>">
+                    <input type="text" name="first_prize2" id="first_prize2" class="form-control form-control-sm mb-2" value="<?= $first_prize2 ?>">
+                    <input type="text" name="first_prize3" id="first_prize3" class="form-control form-control-sm" value="<?= $first_prize3 ?>">
+                </div>
+                <div class="form-group">
+                    <label for="addprize" class="w-100">增開六獎</label>
+                    <input type="text" name="addprize" id="addprize" class="form-control form-control-sm" value="<?= $addprize ?>">    
+                </div>
+                <div class="form-group">
+                    <a href="winning_numbers.php" class="btn btn-info">新增中獎號碼</a>
+                    <input type="submit" class="btn btn-info" value="更新">
+                </div>
+                <nav class="nav mb-3">
+                    <a class="nav-link active" href="index.php">回首頁</a>
+                    <a class="nav-link" href="winning_numbers_list.php">中獎號碼清單</a>
+                </nav>
         </div>
-        <div class="item">
-            <input type="text" name="id" value="<?= $id ?>" style="display:none;">
-        </div>
-        <div class="item">
-            <div class="numer">
-                <label for="special">特別獎
-                    <input type="text" name="special" id="special" value="<?= $special ?>">
-                </label></div>
-            <div class="bonus">
-                同期統一發票收執聯8位數號碼與特別獎號碼相同者獎金1,000萬元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">
-                <label for="top">特獎
-                    <input type="text" name="top" id="top" value="<?= $top ?>">
-                </label>
-            </div>
-            <div class="bonus">
-                同期統一發票收執聯8位數號碼與特獎號碼相同者獎金200萬元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">
-                <label for="first_prize1">頭獎
-                    <input type="text" name="first_prize1" id="first_prize1" value="<?= $first_prize1 ?>">
-                    <input type="text" name="first_prize2" id="first_prize2" value="<?= $first_prize2 ?>">
-                    <input type="text" name="first_prize3" id="first_prize3" value="<?= $first_prize3 ?>">
-                </label></div>
-            <div class="bonus">
-                同期統一發票收執聯8位數號碼與頭獎號碼相同者獎金20萬元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">二獎</div>
-            <div class="bonus">
-                同期統一發票收執聯末7位數號碼與頭獎中獎號碼末7 位相同者各得獎金4萬元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">三獎</div>
-            <div class="bonus">
-                同期統一發票收執聯末6 位數號碼與頭獎中獎號碼末6 位相同者各得獎金1萬元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">四獎</div>
-            <div class="bonus">
-                同期統一發票收執聯末5 位數號碼與頭獎中獎號碼末5 位相同者各得獎金4千元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">五獎</div>
-            <div class="bonus">
-                同期統一發票收執聯末4 位數號碼與頭獎中獎號碼末4 位相同者各得獎金1千元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">六獎</div>
-            <div class="bonus">
-                同期統一發票收執聯末3 位數號碼與 頭獎中獎號碼末3 位相同者各得獎金2百元
-            </div>
-        </div>
-        <div class="item">
-            <div class="numer">
-                <label for="addprize">增開六獎
-                    <input type="text" name="addprize" id="addprize" value="<?= $addprize ?>">
-                </label></div>
-        </div>
-        <div class="item">
-            <input type="submit" value="送出">
-            <input type="reset" value="重填">
-        </div>
-        </div>
-    </form>
+        </form>
+    </div>
+    </div>
 
 
 
