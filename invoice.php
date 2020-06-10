@@ -6,102 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>統一發票管理系統 - 首頁</title>
     <style>
-
-        html,body{
-            height:100%;
-        }
-
-        .form1{
-            margin:0 auto;
-        }
-
-        label{
-            margin: 1% 0;  
-        }
-        input {
-            width: 100%;
-        }
-
-        input[type="submit"]{
-            margin:5% 0;
-        }
-
-        select{
-            width:100%;
-            text-align-last: center;
-        }
-        textarea{
-            width: 100%;
-        }
-
-
-
-
-
-
-
     </style>
 </head>
 
-<body class="d-flex justify-content-center align-items-center ">
-<?php
+<body class="d-flex justify-content-end align-items-center ">
+    <?php
     include_once "common/base.php";
     include "include/link.php";
-
-?>
-<div class="container w-50">
-    <div class="row">
-    <div class="col">
-        <?php
-    if( isset($_GET["status"]) && $_GET["status"] == 1){
-        echo "<div>新增成功，請繼續輸入下一筆資料</div>";
-    }
     ?>
-        <h1><?= "請輸入您的發票資訊，".$_SESSION['name'];?></h1>
-        <form action="save_invoice.php" method="POST" class="form1">
-            <label for="year">*民國年
-            </label>
-            <select name="year" id="year">
+    <div class="container w-25 ">
+        <div class="row justify-content-center align-items-center">
             <?php
-            $year = date("Y") - 1911;
-                    $ny = $year - 1;
-                    echo "<option value='$ny'>" . $ny . "</option>";
-                    echo "<option value='$year' selected>" . $year . "</option>";
+            if (isset($_GET["status"]) && $_GET["status"] == 1) {
+                echo "<div>新增成功，請繼續輸入下一筆資料</div>";
+            }
             ?>
-            </select>
-            <label for="period">*期別</label>
-            <select name="period" id="period">
-                <option value="1">01-02月</option>
-                <option value="2">03-04月</option>
-                <option value="3">05-06月</option>
-                <option value="4">07-08月</option>
-                <option value="5">09-10月</option>
-                <option value="6">11-12月</option>
-            </select>
-            <label for="inv_date">發票日期</label>
-            <input type="date" name="inv_date" id="inv_date">
-            <label for="code">字軌</label>
-            <input type="text" name="code" id="code" >
-            <label for="num">*發票號碼</label>
-            <input type="text" name="num" id="num" require>
-            <label for="spend">金額</label>
-            <input type="text" name="spend" id="spend">
-            <label for="note">備註</label>
-            <textarea name="note" id="note" cols="30" rows="3"></textarea>
-            <input type="submit" value="save">
+            <form action="save_invoice.php" method="POST" class="w-75">
+                <h2 class="h4"><?= "請輸入您的發票資訊，" . $_SESSION['name']; ?></h2>
+                <div class="form-group">
+                    <label for="year">*民國年</label>
+                    <select name="year" id="year" class="form-control form-control-sm">
+                        <?php
+                        $year = date("Y") - 1911;
+                        $ny = $year - 1;
+                        echo "<option value='$ny'>" . $ny . "</option>";
+                        echo "<option value='$year' selected>" . $year . "</option>";
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="period">*期別</label>
+                    <select name="period" id="period" class="form-control form-control-sm">
+                        <option value="1">01-02月</option>
+                        <option value="2">03-04月</option>
+                        <option value="3">05-06月</option>
+                        <option value="4">07-08月</option>
+                        <option value="5">09-10月</option>
+                        <option value="6">11-12月</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inv_date">發票日期</label>
+                    <input type="date" name="inv_date" id="inv_date" class="form-control form-control-sm">
+                </div>
+                <div class="form-group">
+                    <label for="code">字軌</label>
+                    <input type="text" name="code" id="code" class="form-control form-control-sm">
+                </div>
+                <div class="form-group">
+                <label for="num">*發票號碼</label>
+                <input type="text" name="num" id="num" class="form-control form-control-sm">
+                </div>
+                <div class="form-group">
+                <label for="spend">金額</label>
+                <input type="text" name="spend" class="form-control form-control-sm" id="spend">
+                </div>
+                <div class="form-group">
+                <label for="note">備註</label>
+                <textarea name="note" class="form-control form-control-sm" id="note" cols="30" rows="3"></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary" value="save">
+            </form>
+        </div>
     </div>
-    </div>
-     </form>
-     <div class="row">
-         <div class="col">
-             <a href="list.php">查看發票列表</a>
-         </div>
-     </div>
-</div>
-<?php 
-
-
-?>
 </body>
 
 </html>
