@@ -25,7 +25,7 @@ $data = [
 $res = save("invoice",$data);
 
 if($res>=1){
-    to("invoice.php?status=1");
+    to("main.php?target=invoice&status=1");
 }else{
     echo "新增失敗";
 }

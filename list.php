@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>統一發票管理系統 - 發票清單</title>
+    <?php include 'include/link.php'; ?>
     <style>
-
         .form-control {
             width: auto;
         }
@@ -16,7 +16,7 @@
 
 <body>
     <div class="container">
-        <div class="row flex-column justify-content-end align-items-center">
+        <div class="row flex-column justify-content-start align-items-center">
             <form action="?" method="get">
                 <h4 class="h4 mb-3">請選擇要查詢的發票年月份</h4>
                 <div class="form-group d-flex">
@@ -56,6 +56,7 @@
                 $page_total = ceil($total / $page_show);
                 parse_str($_SERVER['QUERY_STRING'], $query_arr);
 
+                echo "<div class='mt-3'>";
                 if ($page > 1) {
                     $query_arr['page'] = $page - 1;
                     $new_query_str = http_build_query($query_arr);
@@ -67,11 +68,13 @@
                     $new_query_str = http_build_query($query_arr);
                     echo "<a href='" . $_SERVER['PHP_SELF'] . "?" . $new_query_str . "'>下一頁</a>";
                 }
+                echo "</div>";
 
 
             ?>
-                <table>
-                    <tr>
+            <div class="table-responsive">
+                <table class="table table-sm w-75 text-center mt-3 mx-auto">
+                    <tr >
                         <td>年度</td>
                         <td>月份</td>
                         <td>發票日期</td>
@@ -94,8 +97,8 @@
                                 $tmp = $row[$value] != null ? $row[$value] : 0;
                                 echo "<td>" . $arr[$tmp] . "</td>";
                             } elseif ($value == "operation") {
-                                echo "<td><a href='update_invoice.php?id=" . $row['id'] . "'>編輯</a>";
-                                echo "<a href='del_invoice.php?id=" . $row['id'] . "'>刪除</a></td>";
+                                echo "<td><a class='d-inline-block' href='update_invoice.php?id=" . $row['id'] . "'>編輯</a>";
+                                echo "<a class='d-inline-block ml-3' href='del_invoice.php?id=" . $row['id'] . "'>刪除</a></td>";
                             } else {
                                 echo "<td>" . $row[$value] . "</td>";
                             }
@@ -107,6 +110,7 @@
             <?php
             }
             ?>
+            </div>
         </div>
     </div>
 </body>

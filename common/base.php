@@ -151,3 +151,4 @@ function check_winnums($win_rows,$inv_rows){
     }
     return $list;
 }
+?>
