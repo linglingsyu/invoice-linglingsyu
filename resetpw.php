@@ -1,37 +1,42 @@
-<?php 
-
-/* 資料庫有資料> 出現重設密碼視窗
-
-沒有資料> 導回forget.html重新輸入 */
-
-?>
-
+<?php include_once "common/base.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>統一發票對獎系統- 重設密碼</title>
 </head>
+
 <body>
 
-<form action="?">
-    <label for="pw">請輸入新密碼/label>
-    <input type="password" name="pw" id="pw">
-    <label for="pw2">確認新密碼</label>
-    <input type="password" name="pw2" id="pw2">
-    <input type="submit" value="重置" id="submit">
-    <input type="reset" value="清除重填">
-</form>
+    <?php
+    foreach ($_POST as $value) {
+        if (empty($value)) {
+            to("forget.php?status=1");
+            exit();
+        }
+    }
+    if($_POST['pw'] != $_POST['chkpw']){
+        to("forget.php?status=2");
+        exit();
+    }
+    $data = [
+        "acc" => $_POST['acc'],
+        "email" => $_POST['email'],
+        "birthday" => $_POST['bir'],
+    ];
+    $row = find('user', $data);
+    if ($row == null) {
+        to("forget.php?status=3");
+        exit();
+    } 
+    $data = ["id"=>$row['id'],'pw'=>$_POST['pw']];
+        save("user",$data);
+        to("forget.php?status=4");
 
-<?php 
-
-//* 變更密碼成功  連結至登入頁面
-
-//* 失敗重新設定密碼
-
-
-?>
+    ?>
 
 </body>
+
 </html>

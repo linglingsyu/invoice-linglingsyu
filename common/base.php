@@ -126,27 +126,27 @@ function check_winnums($win_rows,$inv_rows){
     foreach ($inv_rows as $rows){
         $num = $rows["num"];
         if($num == $special){
-            $list[] = "發票號碼" . $num . "中了特別獎，獎金1000萬元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了特別獎，獎金<span class='spcbonus'>10,000,000</span>元<br>";
             continue;
         }elseif ($num == $top) {
-            $list[] = "發票號碼" . $num . "中了特獎，獎金200萬元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了特獎，獎金<span class='topbonus'>2,000,000</span>元<br>";
             continue;
         }
         if (!in_array(mb_substr($num, 5, 3), $sixth)) {
             continue;
         }
         if (in_array($num, $first)){
-            $list[] = "發票號碼" . $num . "中了頭獎，獎金20萬元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了頭獎，獎金<span class='bonus'>20,0000</span>元<br>";
         }elseif (in_array(mb_substr($num, 1, 7), $second)){
-            $list[] = "發票號碼" . $num . "中了二獎，獎金4萬元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了二獎，獎金<span class='bonus'>40,000</span>元<br>";
         }elseif (in_array(mb_substr($num, 2, 6), $third)){
-            $list[] = "發票號碼" . $num . "中了三獎，獎金1萬元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了三獎，獎金<span class='bonus'>10,000</span>元<br>";
         }elseif (in_array(mb_substr($num, 3, 5), $fourth)){
-            $list[] = "發票號碼" . $num . "中了四獎，獎金4千元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了四獎，獎金<span class='bonus'>4,000</span>元<br>";
         }elseif (in_array(mb_substr($num, 4, 4), $fifth)){
-            $list[] = "發票號碼" . $num . "中了五獎，獎金1千元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了五獎，獎金<span class='bonus'>1,000</span>元<br>";
         }else {
-            $list[] = "發票號碼" . $num . "中了六獎，獎金2百元<br>";
+            $list[] = "發票號碼<span class='numcolor'>" . $num . "</span>中了六獎，獎金<span class='bonus'>200</span>元<br>";
         }
     }
     return $list;

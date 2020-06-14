@@ -8,11 +8,16 @@
     <title>編輯中獎號碼</title>
     <?php include("include/link.php") ?>
     <style>
-        .nav a {
-            color: #F3D5AD;
+        html,
+        body {
+            height: 100%;
         }
-        .nav a:hover {
-            color: #F5B895;
+
+        .h3 {
+            color: #5B00AE;
+        }
+        label {
+            color: #000000;
         }
     </style>
 </head>
@@ -34,9 +39,13 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <form action="winning_numbers_update.php" method="post" class="w-25">
-                <h1 class="h3">編輯中獎號碼</h1>
-                <p><?= $year ?>年<?= $arr[$period] ?></p>
-                <input type="text" name="id" value="<?= $id ?>" style="display:none;">
+                <nav class="nav mb-3">
+                    <a class="nav-link pl-0 active" href="index.php">回首頁</a>
+                    <a class="nav-link" href="winning_numbers_list.php">中獎號碼清單</a>
+                </nav>
+                <h3 class="h3">編輯中獎號碼</h3>
+                <p class="text-secondary"><?= $year ?>年<?= $arr[$period] ?></p>
+                <input type="hidden" name="id" value="<?= $row['id'] ?>" >
                 <div class="form-group">
                     <label for="special" class="w-100">特別獎</label>
                     <input type="text" name="special" id="special" class="form-control form-control-sm" value="<?= $special ?>">
@@ -53,16 +62,12 @@
                 </div>
                 <div class="form-group">
                     <label for="addprize" class="w-100">增開六獎</label>
-                    <input type="text" name="addprize" id="addprize" class="form-control form-control-sm" value="<?= $addprize ?>">    
+                    <input type="text" name="addprize" id="addprize" class="form-control form-control-sm" value="<?= $addprize ?>">
                 </div>
                 <div class="form-group">
                     <a href="winning_numbers.php" class="btn btn-info">新增中獎號碼</a>
                     <input type="submit" class="btn btn-info" value="更新">
                 </div>
-                <nav class="nav mb-3">
-                    <a class="nav-link active" href="index.php">回首頁</a>
-                    <a class="nav-link" href="winning_numbers_list.php">中獎號碼清單</a>
-                </nav>
         </div>
         </form>
     </div>

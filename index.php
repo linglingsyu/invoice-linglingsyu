@@ -7,9 +7,25 @@
   <title>統一發票管理系統 - 首頁</title>
   <?php include 'include/link.php'; ?>
   <style>
+
+    .h1{
+      color:#5B00AE;
+    }
+
+    label{
+      color:#000000;
+    }
+
+    html,body{
+      height: 100%;
+    }
     button{
       width: 45%;
       margin-left:8px;
+    }
+
+    p{
+      color:#000000;
     }
 
   </style>
@@ -25,7 +41,7 @@
         if ($_SESSION["status"]) {
           $show = 1;
         } else {
-          echo "帳號密碼錯誤，請重新輸入";
+          echo "<script>alert('帳號密碼錯誤，請重新輸入')</script>";
         }
       }
       ?>
@@ -47,7 +63,7 @@
           <div class="inline-block  text-center mt-3 mb-3">
             <a href="reg.php" class="text-info">註冊帳號</a>
             <span> | </span>
-            <a href="#" class="text-info">忘記密碼</a>
+            <a href="forget.php" class="text-info">忘記密碼</a>
           </div>
           <p>登入帳號即可享有個人專屬發票管理頁面！</p>
           <p>您可以：</p>
@@ -59,7 +75,6 @@
         </form>
     </div>
   </div>
-
 <?php
       } else {
         header("location:main.php");
