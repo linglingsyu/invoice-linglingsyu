@@ -40,11 +40,11 @@
             <h4 class="h4 text-center py-3"><?= "這是" . $_SESSION['name'] . "的個人資訊"; ?></h4>
             <div class="form-group">
                 <label for="pw">密碼</label>
-                <input type="text" name="pw" class="form-control">
+                <input type="password" name="pw" class="form-control">
             </div>
             <div class="form-group ">
                 <label for="chkpw">請再次輸入密碼</label>
-                <input type="text" name="chkpw" class="form-control ">
+                <input type="password" name="chkpw" class="form-control ">
             </div>
             <div class="form-group">
                 <label for="name">暱稱</label>

@@ -110,12 +110,14 @@
         $numlast3 = $_POST["numlast3"];
         if (in_array($numlast3, $lastthree)) {
             echo '<form action="?" method="post">';
-            echo '<hr>';
             echo '<label><input type="hidden" name="year" value="' . $_POST["year"] . '"  readonly></label>';
             echo '<label><input type="hidden" name="period" value="' . $_POST["period"] . '" readonly></label>';
-            echo '<label for="number5" id="number5" class="mt-3 my-0">您很有可能中大獎！請繼續輸入發票前五碼</label><input type="text" name="number5" id="number5" class="form-control my-2">';
-            echo '<label><input type="hidden" name="number3" value="' . $numlast3 . '" readonly></label>';
-            echo '<input type="submit" class="form-contorl float-right" value="送出">';
+            echo '<div class="w-75 mx-auto">';
+            echo '<p class="text-dark">您很有可能中大獎！請繼續輸入發票前五碼</p>';
+            echo '<input type="text" name="number5" id="number5" class=" d-inline-block form-control w-50 mb-3 ml-2">';
+            echo '<input type="text" name="number3" class="d-inline-block form-control w-25 ml-2 mb-3" value="' . $numlast3 . '" readonly>';
+            echo '<input type="submit" class="form-contorl btn btn-primary ml-2 w-75" value="送出">';
+            echo '</div>';
             echo '</form>';
             exit();
         }
