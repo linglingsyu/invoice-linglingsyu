@@ -52,11 +52,11 @@
           <h1 class="h1 text-center">登入帳號</h1>
           <div class="form-group">
             <label for="acc">帳號</label>
-            <input type="text" name="acc" id="acc" class="form-control" placeholder="admin">
+            <input type="text" name="acc" id="acc" class="form-control">
           </div>
           <div class="form-group">
             <label for="pw">密碼</label>
-            <input type="password" name="pw" id="pw" class="form-control" placeholder="123">
+            <input type="password" name="pw" id="pw" class="form-control">
           </div>
           <button type="reset" class="btn btn-primary">重寫</button>
           <button type="submit" class="btn btn-primary">登入</button>
